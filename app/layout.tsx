@@ -7,6 +7,7 @@ import { BackgroundProvider } from "@/lib/background-context";
 import { cn } from "@/lib/utils";
 import { CommandPalette } from "@/components/layout/command-palette";
 import { CommandPaletteContextProvider } from "@/components/layout/command-palette/context";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Drapes UI – Beautiful Animated Canvas Backgrounds for Your Website",
@@ -82,7 +83,18 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="apple-mobile-web-app-title" content="DrapesUI" />
-        <script src="https://t.contentsquare.net/uxa/42ca58a0d7aa7.js"></script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-BSYPXYRCXJ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-BSYPXYRCXJ');
+          `}
+        </Script>
       </head>
       <body
         className={cn(
