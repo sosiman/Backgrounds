@@ -26,7 +26,7 @@
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v18 or higher recommended)
+- Node.js (v20 or higher recommended)
 - pnpm, npm 
 
 ### Installation
@@ -53,11 +53,10 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 ```
 actions/       # Action to automatically save thumbnails for backgrounds 
-app/           # 
+app/           
   bg/          # background route for preview of backgrounds 
   test/        # Testing Route for new Backgrounds 
 backgrounds/   # Backgrounds Folder
-  ...          #
 components/    # Reusable UI and layout components
 hooks/         # Custom React hooks
 lib/           # Utility functions

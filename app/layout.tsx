@@ -9,8 +9,9 @@ import { CommandPalette } from "@/components/layout/command-palette";
 import { CommandPaletteContextProvider } from "@/components/layout/command-palette/context";
 
 export const metadata: Metadata = {
-  title: "DrapesUI",
-  description: "Backgrounds",
+  title: "Drapes UI – Beautiful Animated Canvas Backgrounds for Your Website",
+  description:
+    "Stunning, performant, animated canvas backgrounds you can add in seconds. Zero dependencies, fully customizable, new design every week. Built with React + Tailwind.",
   icons: {
     icon: [
       { url: "/favicon.ico", type: "image/x-icon" },
@@ -22,9 +23,53 @@ export const metadata: Metadata = {
     ],
     shortcut: ["/favicon.ico"],
   },
+  openGraph: {
+    title: "Drapes UI – Live Animated Canvas Backgrounds (Free & Open Source)",
+    description:
+      "Drop-in animated backgrounds for React & Next.js. Zero dependencies · Weekly new designs · Fully customizable",
+    url: "https://drapes-ui.vercel.app",
+    siteName: "Drapes UI",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Drapes UI – Animated Canvas Backgrounds Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Drapes UI – Live Animated Canvas Backgrounds (Free & Open Source)",
+    description: "Add gorgeous live backgrounds to your site in 2 clicks. New design every week ⚡",
+    images: ["/og.png"],
+  },
+  keywords:
+    "animated background, canvas background, react background, tailwind background, live wallpaper web, nextjs background, particles background, drapes ui, free canvas animation",
+
+  metadataBase: new URL("https://drapes-ui.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
   manifest: "/manifest.json",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
   other: {
-    "apple-mobile-web-app-title": "DrapesUI",
+    "apple-mobile-web-app-title": "Drapes UI",
+    "application-name": "Drapes UI",
   },
 };
 
