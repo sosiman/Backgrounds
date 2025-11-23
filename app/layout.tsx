@@ -124,6 +124,7 @@ export default function RootLayout({
             </BackgroundProvider>
           </CommandPaletteContextProvider>
         </div>
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "153bbd5761a04a24ab622358e470388a"}'></script>
       </body>
     </html>
   );
