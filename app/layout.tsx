@@ -82,6 +82,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="apple-mobile-web-app-title" content="DrapesUI" />
+        <script src="https://t.contentsquare.net/uxa/42ca58a0d7aa7.js"></script>
       </head>
       <body
         className={cn(
@@ -124,7 +125,6 @@ export default function RootLayout({
             </BackgroundProvider>
           </CommandPaletteContextProvider>
         </div>
-        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "153bbd5761a04a24ab622358e470388a"}'></script>
       </body>
     </html>
   );
