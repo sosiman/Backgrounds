@@ -1,5 +1,5 @@
 import { roundToDecimalPlaces } from "@/lib/utils";
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Tooltip } from "./tooltip";
 import { ArrowCounterClockwiseIcon } from "@phosphor-icons/react";
 
@@ -35,7 +35,7 @@ export const RangeSlider = ({ label, min, max, step, onChange, value, descriptio
     currentValueRef.current = currentValue
   }, [currentValue])
 
-  const updatePosition = useCallback((val: number) => {
+  const updatePosition = (val: number) => {
     const container = containerRef.current
     const slider = sliderRef.current
     const marker = markerRef.current
@@ -52,7 +52,7 @@ export const RangeSlider = ({ label, min, max, step, onChange, value, descriptio
     slider.style.width = `${x}px`
 
     marker.style.left = `${Math.max(x - marker.offsetWidth - 6, 6)}px`
-  }, [min, max])
+  }
 
   useEffect(() => {
     updatePosition(currentValue)

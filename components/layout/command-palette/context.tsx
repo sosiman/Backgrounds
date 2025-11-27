@@ -1,7 +1,7 @@
 'use client'
 import useLocalStorage from "@/hooks/use-local-storage";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, ReactNode, use, useCallback, useEffect, useState } from "react";
+import { createContext, ReactNode, use, useEffect, useState } from "react";
 
 interface CommandPaletteContextType {
   isOpen: boolean;
@@ -35,7 +35,7 @@ export function CommandPaletteContextProvider({ children }: { children: ReactNod
 
   const handleClearFilter = () => setSearchQuery('')
 
-  const handleSubmit = useCallback((value?: string) => {
+  const handleSubmit = (value?: string) => {
     const query = value || inputValue
     if (!query.trim()) return;
 
@@ -62,7 +62,7 @@ export function CommandPaletteContextProvider({ children }: { children: ReactNod
       const element = document.getElementById("background-collections");
       element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [inputValue, setHistory]);
+  }
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

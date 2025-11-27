@@ -3,7 +3,7 @@ import '@/backgrounds';
 import { registry } from '@/lib/registry';
 import useLocalStorage from '@/hooks/use-local-storage';
 import { cn } from '@/lib/utils';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { BackgroundCard } from '../ui/card';
 import { StarIcon } from '@phosphor-icons/react';
 import { useCommandPalette } from './command-palette/context';
@@ -23,7 +23,7 @@ export const Collections = () => {
     );
   };
 
-  const filtered = useMemo(() => {
+  const filtered = (() => {
     let result = activeTab === 'fav'
       ? backgrounds.filter(({ config }) => favourite.includes(config.id))
       : backgrounds;
@@ -43,7 +43,7 @@ export const Collections = () => {
     }
 
     return result;
-  }, [activeTab, favourite, searchQuery, backgrounds]);
+  })()
 
   const handleChangeTab = (tab: 'all' | 'fav') => {
     setActiveTab(tab);
@@ -61,7 +61,13 @@ export const Collections = () => {
         handleClearFilter={handleClearFilter}
       />
 
-      <div id='background-collections' className="w-full flex flex-wrap justify-center gap-5 px-5 md:px-10 min-h-full scroll-m-24">
+      <div
+        id='background-collections'
+        className={cn(
+          'w-full flex flex-wrap justify-center gap-5 px-5 md:px-10 min-h-full scroll-m-28',
+          filtered && "min-h-[80vh]"
+        )}
+      >
         {/* bg-base-content/10 backdrop-blur-3xl */}
         {filtered.map(({ config, component: Component }, index) => (
           <BackgroundCard
@@ -77,7 +83,7 @@ export const Collections = () => {
         ))}
 
         {activeTab === 'fav' && filtered.length === 0 && (
-          <div className="col-span-full text-center py-12 min-h-[50vh] text-base-content/60 font-sans">
+          <div className="col-span-full text-center py-12 text-base-content/60 font-sans">
             <p className="text-xl">
               {searchQuery.trim()
                 ? 'No favourite backgrounds match your search.'
@@ -94,13 +100,13 @@ export const Collections = () => {
         )}
 
         {activeTab === 'all' && filtered.length === 0 && searchQuery.trim() && (
-          <div className="col-span-full text-center py-12 min-h-[50vh] text-base-content/60 font-sans">
+          <div className="col-span-full text-center py-12 text-base-content/60 font-sans">
             <p className="text-xl">No backgrounds match your search.</p>
           </div>
         )}
       </div>
 
-      <p className="mt-10 text-center text-base-content/70 font-bold font-sans capitalize">New background every week</p>
+      <p className="mt-10 text-center text-base-content/40 font-bold font-sans capitalize">New background every week</p>
       <PreFetechingScript />
     </div>
   );

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from "react"
+import { useEffect, useEffectEvent, useRef, useState } from "react"
 import { ClockClockwiseIcon, HashIcon, ImageIcon, XIcon } from "@phosphor-icons/react"
 import { CommandPaletteHistoryType, useCommandPalette } from "./context"
 import { cn } from "@/lib/utils"
@@ -17,19 +17,18 @@ const CommandPaletteDropdown = () => {
   const router = useRouter()
   const backgrounds = registry.getAll()
 
-  const sortedHistory: CommandPaletteHistoryType[] = useMemo(() => {
-    return [...history].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  }, [history])
+  const sortedHistory: CommandPaletteHistoryType[] = [...history]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
-  const allTags = useMemo(() => {
+  const allTags = (() => {
     const tagsSet = new Set<string>()
     backgrounds.forEach(({ config }) => {
       config.tags?.forEach(tag => tagsSet.add(tag))
     })
     return Array.from(tagsSet).sort()
-  }, [backgrounds])
+  })()
 
-  const suggestions: SuggestionItem[] = useMemo(() => {
+  const suggestions: SuggestionItem[] = (() => {
     if (!inputValue.trim()) {
       return sortedHistory.map(h => ({ type: 'history', ...h }))
     }
@@ -68,9 +67,9 @@ const CommandPaletteDropdown = () => {
       .slice(0, 5)
 
     return [...filteredBgs, ...filteredTags, ...filteredHistory]
-  }, [inputValue, backgrounds, allTags, sortedHistory, highlightedIndex])
+  })()
 
-  const handleSelect = useCallback((item: SuggestionItem) => {
+  const handleSelect = (item: SuggestionItem) => {
     const query = inputValue.trim()
     switch (item.type) {
       case 'history':
@@ -100,7 +99,7 @@ const CommandPaletteDropdown = () => {
         toggleOpen()
         break
     }
-  }, [inputValue, setInputValue, highlightedIndex, handleSubmit, setHistory, router, toggleOpen])
+  }
 
   const removeItem = (e: React.MouseEvent, index: number) => {
     e.stopPropagation()
@@ -121,8 +120,6 @@ const CommandPaletteDropdown = () => {
   }
 
   const onKeyDown = useEffectEvent((e: KeyboardEvent) => {
-    if (!suggestions.length) return;
-
     const key = e.key.toLowerCase();
     if (!["arrowdown", "arrowup", "enter", "escape"].includes(key)) return;
 
@@ -141,6 +138,8 @@ const CommandPaletteDropdown = () => {
       }
       return;
     }
+
+    if (!suggestions.length) return;
 
     let updatedIndex = highlightedIndex;
 
