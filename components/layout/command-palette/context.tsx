@@ -1,7 +1,7 @@
 'use client'
 import useLocalStorage from "@/hooks/use-local-storage";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, use, useCallback, useEffect, useState } from "react";
 
 interface CommandPaletteContextType {
   isOpen: boolean;
@@ -77,7 +77,7 @@ export function CommandPaletteContextProvider({ children }: { children: ReactNod
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [inputValue, isOpen]);
+  }, [isOpen]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -87,16 +87,16 @@ export function CommandPaletteContextProvider({ children }: { children: ReactNod
   }, [isOpen]);
 
   return (
-    <CommandPaletteContext.Provider
+    <CommandPaletteContext
       value={{ isOpen, toggleOpen, inputValue, setInputValue, history, setHistory, searchQuery, handleSubmit, handleClearFilter }}
     >
       {children}
-    </CommandPaletteContext.Provider>
+    </CommandPaletteContext>
   )
 }
 
 export function useCommandPalette() {
-  const context = useContext(CommandPaletteContext)
+  const context = use(CommandPaletteContext)
   if (context === undefined) {
     throw new Error('useCommandPalette must be used within a CommandPaletteContext');
   }

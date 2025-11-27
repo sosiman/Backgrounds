@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from "react"
 import { ClockClockwiseIcon, HashIcon, ImageIcon, XIcon } from "@phosphor-icons/react"
 import { CommandPaletteHistoryType, useCommandPalette } from "./context"
 import { cn } from "@/lib/utils"
@@ -120,35 +120,48 @@ const CommandPaletteDropdown = () => {
     })
   }
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!suggestions.length) return
-      const key = e.key.toLowerCase()
-      if (!['arrowdown', 'arrowup', 'enter'].includes(key)) return
-      e.preventDefault()
+  const onKeyDown = useEffectEvent((e: KeyboardEvent) => {
+    if (!suggestions.length) return;
 
-      let updatedIndex = highlightedIndex
-      if (key === 'arrowdown')
-        updatedIndex = (highlightedIndex + 1) % suggestions.length
-      else if (key === 'arrowup')
-        updatedIndex = highlightedIndex <= 0 ? suggestions.length - 1 : highlightedIndex - 1
-      else if (key === 'enter') {
-        if (highlightedIndex >= 0 && suggestions[highlightedIndex]) {
-          handleSelect(suggestions[highlightedIndex])
-        } else handleSubmit(inputValue)
-        return
-      }
+    const key = e.key.toLowerCase();
+    if (!["arrowdown", "arrowup", "enter", "escape"].includes(key)) return;
 
-      itemsRefs.current[updatedIndex]?.scrollIntoView({
-        block: 'center', behavior: "smooth"
-      })
+    e.preventDefault();
 
-      setHighlightedIndex(updatedIndex)
+    if (key === "escape") {
+      toggleOpen();
+      return;
     }
 
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [suggestions, highlightedIndex])
+    if (key === "enter") {
+      if (highlightedIndex >= 0 && suggestions[highlightedIndex]) {
+        handleSelect(suggestions[highlightedIndex]);
+      } else {
+        handleSubmit(inputValue);
+      }
+      return;
+    }
+
+    let updatedIndex = highlightedIndex;
+
+    if (key === "arrowdown") {
+      updatedIndex = (highlightedIndex + 1) % suggestions.length;
+    } else if (key === "arrowup") {
+      updatedIndex = highlightedIndex <= 0 ? suggestions.length - 1 : highlightedIndex - 1;
+    }
+
+    itemsRefs.current[updatedIndex]?.scrollIntoView({
+      block: "center",
+      behavior: "smooth",
+    });
+
+    setHighlightedIndex(updatedIndex);
+  });
+
+  useEffect(() => {
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   if (!suggestions.length) return
 

@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useState, ReactNode, use } from 'react';
 
 interface BackgroundContextType {
   props: Record<string, any>;
@@ -16,14 +16,14 @@ export function BackgroundProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <BackgroundContext.Provider value={{ props, setProps, updateProp }}>
+    <BackgroundContext value={{ props, setProps, updateProp }}>
       {children}
-    </BackgroundContext.Provider>
+    </BackgroundContext>
   );
 }
 
 export function useBackgroundProps() {
-  const context = useContext(BackgroundContext);
+  const context = use(BackgroundContext);
   if (!context) {
     throw new Error('useBackgroundProps must be used within BackgroundProvider');
   }

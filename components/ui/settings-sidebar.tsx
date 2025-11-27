@@ -1,6 +1,6 @@
 "use client";
 import { Drawer } from 'vaul';
-import { createContext, useContext, useState, ReactNode, ReactElement, useEffect } from 'react';
+import { createContext, useState, ReactNode, ReactElement, useEffect, use } from 'react';
 import { XIcon, GearIcon, CodeIcon } from '@phosphor-icons/react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { usePathname } from 'next/navigation';
@@ -39,7 +39,7 @@ export function SettingsSidebarProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <SettingsSidebarContext.Provider value={{
+    <SettingsSidebarContext value={{
       isOpen,
       settingsComponent,
       codeSidebarOpener,
@@ -47,12 +47,12 @@ export function SettingsSidebarProvider({ children }: { children: ReactNode }) {
       closeSettingsSidebar
     }}>
       {children}
-    </SettingsSidebarContext.Provider>
+    </SettingsSidebarContext>
   );
 }
 
 export function useSettingsSidebar() {
-  const context = useContext(SettingsSidebarContext);
+  const context = use(SettingsSidebarContext);
   if (context === undefined) {
     throw new Error('useSettingsSidebar must be used within a SettingsSidebarProvider');
   }

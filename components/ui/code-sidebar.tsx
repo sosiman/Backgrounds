@@ -1,6 +1,6 @@
 "use client";
 import { Drawer } from 'vaul';
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useState, ReactNode, useEffect, use } from 'react';
 import { PuzzlePieceIcon, FileTsxIcon, FileJsxIcon, XIcon, GearIcon } from '@phosphor-icons/react';
 import { usePathname } from 'next/navigation';
 import Code from './code';
@@ -56,20 +56,22 @@ export function CodeSidebarProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <CodeSidebarContext.Provider value={{
-      isOpen,
-      data,
-      opener,
-      openCodeSidebar,
-      closeCodeSidebar
-    }}>
+    <CodeSidebarContext
+      value={{
+        isOpen,
+        data,
+        opener,
+        openCodeSidebar,
+        closeCodeSidebar
+      }}
+    >
       {children}
-    </CodeSidebarContext.Provider>
+    </CodeSidebarContext>
   );
 }
 
 export function useCodeSidebar() {
-  const context = useContext(CodeSidebarContext);
+  const context = use(CodeSidebarContext);
   if (context === undefined) {
     throw new Error('useCodeSidebar must be used within a CodeSidebarProvider');
   }
