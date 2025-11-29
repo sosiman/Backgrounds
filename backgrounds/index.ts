@@ -16,6 +16,7 @@ import Snowfall from './snow-fall'
 import Pipes from './pipes'
 import Matrix from './matrix'
 import PlasmaWave from './plasma-wave';
+import FluidLines from './fluid-lines';
 
 //import config
 import dotGridConfig from './dot-grid/config';
@@ -27,12 +28,14 @@ import snowfallConfig from './snow-fall/config'
 import pipesConfig from './pipes/config'
 import matrixConfig from './matrix/config'
 import plasmaWaveConfig from './plasma-wave/config';
+import fluidLinesConfig from './fluid-lines/config'
 
 const registerEntry: BackgroundEntry[] = [
   { config: noiseFlowConfig, component: NoiseFlow },
   { config: snowfallConfig, component: Snowfall },
   { config: dotGridConfig, component: WaveGradient },
   { config: plasmaWaveConfig, component: PlasmaWave },
+  { config: fluidLinesConfig, component: FluidLines },
   { config: spiralConfig, component: Spirals },
   { config: pipesConfig, component: Pipes },
   { config: matrixConfig, component: Matrix },
