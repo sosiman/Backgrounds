@@ -2,10 +2,10 @@ import { BackgroundConfig } from '@/lib/types';
 import { jsxCode, tsxCode, tsxCodeHTML, jsxCodeHTML, usageCodeHTML, usageCode } from './code'
 
 export default {
-  name: 'Fluid Lines',
-  description: 'A captivating animated background of glowing hexagon patterns that leave trailing marks as they dynamically evolve.',
+  name: 'Wavy Bent Lines',
+  description: 'An animated background featuring fluid, bent lines that undulate with wave-like motion, responding dynamically to mouse movements by contracting or diverging.',
   author: 'NetMods',
-  tags: ['animated', 'hexagons', 'glowing', 'patterns', 'trails', 'abstract', 'geometric'],
+  tags: ['animated', 'bent-lines', 'waves', 'fluid', 'motion', 'interactive', 'abstract', 'geometric'],
   defaultProps: {
     backgroundColor: '#000000',
     lineColor: '#FFFFFF',
@@ -31,14 +31,14 @@ export default {
       label: 'Background Color',
       type: 'color',
       defaultValue: '#000000',
-      description: 'The overall background color',
+      description: 'The overall background color of the canvas.',
     },
     {
       key: 'lineColor',
       label: 'Line Color',
       type: 'color',
       defaultValue: '#FFFFFF',
-      description: 'The overall Color of Lines',
+      description: 'The color of the bent lines in the animation.',
     },
     {
       key: 'gap',
@@ -48,19 +48,18 @@ export default {
       max: 200,
       step: 5,
       defaultValue: 25,
-      description: 'The number of lines in the canvas'
+      description: 'The spacing (gap) between the bent lines in the canvas.',
     },
     {
       key: 'radius',
-      label: 'Radius',
+      label: 'Bend Radius',
       type: 'slider',
       min: 50,
       max: 500,
       step: 10,
       defaultValue: 160,
-      description: 'The number of lines in the canvas'
+      description: 'The radius controlling the curvature and bend of the lines.',
     },
-
     {
       key: 'force',
       label: 'Force',
@@ -69,17 +68,17 @@ export default {
       max: 20,
       step: 1,
       defaultValue: 6,
-      description: 'The maximum number of lines active in the animation at any time.',
+      description: 'The intensity of the wave-like forces affecting line movement.',
     },
     {
       key: 'gravity',
       label: 'Gravity',
       type: 'slider',
-      min: 10,
-      max: 100,
-      step: 10,
-      defaultValue: 10,
-      description: 'The base timing factor influencing the speed of hexagon movements.',
+      min: 0,
+      max: 1,
+      step: 0.1,
+      defaultValue: 0.3,
+      description: 'The gravitational pull influencing the downward drift of the lines.',
     },
     {
       key: 'waveSpeed',
@@ -89,15 +88,15 @@ export default {
       max: 10000,
       step: 100,
       defaultValue: 8000,
-      description: 'Additional time variation applied to the animation cycles.',
+      description: 'The speed at which wave-like motions propagate through the lines.',
     },
     {
       key: 'mouseInteraction',
       label: 'Mouse Effect',
       type: 'select',
-      options: ['none', 'smear', 'converg', 'diverg'],
+      options: ['none', 'smear', 'converge', 'diverge'],
       defaultValue: 'smear',
-      description: 'The overall color palette applied to the particles and lines in the noise animation.',
+      description: 'The interaction mode for mouse movements: none (no effect), smear (blurring trail), converge (lines pull toward mouse), or diverge (lines push away from mouse).',
     },
     {
       key: 'effects',
@@ -105,7 +104,7 @@ export default {
       type: 'select',
       options: ['none', 'wind', 'waves'],
       defaultValue: 'wind',
-      description: 'The overall color palette applied to the particles and lines in the noise animation.',
+      description: 'Global animation effect: none (static), wind (gentle horizontal drift), or waves (undulating vertical motion).',
     },
   ],
 } as Omit<BackgroundConfig, 'id'>;

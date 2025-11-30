@@ -52,7 +52,7 @@ interface PageProps {
   force?: number
   gravity?: number
   waveSpeed?: number
-  mouseInteraction?: "diverg" | "converg" | "smear" | "none"
+  mouseInteraction?: "diverge" | "converge" | "smear" | "none"
   effects?: "wind" | "waves" | "oregeny" | "none"
 }
 
@@ -194,12 +194,12 @@ const FluidLines = ({
           if (distance < radius) {
             const ratio = 1 - distance / radius
             switch (mouseInteraction) {
-              case "diverg":
+              case "diverge":
                 const ratio3 = Math.pow(ratio, 3)
                 point.vx += Math.sign(point.x - mouseX) * force * ratio3 * 0.1
                 point.vy += Math.sign(point.y - mouseY) * force * ratio3
                 break
-              case "converg":
+              case "converge":
                 const ratio2 = Math.pow(ratio, 2)
                 point.vx += (mouseX - point.x) * gravity * ratio2
                 point.vy += (mouseY - point.y) * gravity * ratio2
@@ -259,8 +259,8 @@ const FluidLines = ({
     animate()
 
     window.addEventListener('resize', resizeCanvas)
-    canvas.addEventListener('mousemove', setMouseMove)
-    canvas.addEventListener('mouseleave', setMouseLeave)
+    window.addEventListener('mousemove', setMouseMove)
+    window.addEventListener('mouseleave', setMouseLeave)
 
 
 
@@ -269,15 +269,11 @@ const FluidLines = ({
         cancelAnimationFrame(animationRef.current)
       }
       window.removeEventListener('resize', resizeCanvas)
-      canvas.removeEventListener('mousemove', setMouseMove)
-      canvas.removeEventListener('mouseleave', setMouseLeave)
+      window.removeEventListener('mousemove', setMouseMove)
+      window.removeEventListener('mouseleave', setMouseLeave)
     }
   }, [backgroundColor, lineColor, gap, radius, force, gravity, waveSpeed, mouseInteraction, effects]);
 
-  (async () => {
-    const { captureCanvasScreenshot } = await import('@/lib/utils');
-    await captureCanvasScreenshot(canvasRef, "fluid-lines.webp");
-  })()
 
   return (
     <canvas ref={canvasRef} />
