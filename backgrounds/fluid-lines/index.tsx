@@ -1,8 +1,8 @@
 'use client'
 import { useEffect, useRef } from "react"
+
 class PerlinNoise {
   private permutation: number[]
-
   constructor() {
     const p = []
     for (let i = 0; i < 256; i++) {
@@ -52,7 +52,7 @@ interface PageProps {
   force?: number
   gravity?: number
   waveSpeed?: number
-  mouseInteraction?: "diverg" | "converg" | "smear" | "none"
+  mouseInteraction?: "diverge" | "converge" | "smear" | "none"
   effects?: "wind" | "waves" | "oregeny" | "none"
 }
 
@@ -65,23 +65,30 @@ interface Point {
   vy: number
 }
 
-const Page = ({
+const FluidLines = ({
   backgroundColor = '#000000',
   lineColor = '#FFFFFF',
   gap = 25,
-  radius = 150,
+  radius = 250,
   force = 6,
   gravity = 0.3,
   waveSpeed = 8000,
-  mouseInteraction = 'converg',
-  effects = "none"
+  mouseInteraction = 'smear',
+  effects = "wind"
 }: PageProps) => {
+
+
+
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef<{ x: number, y: number }>({ x: -1000, y: -1000 })
   const prevMouseRef = useRef<{ x: number, y: number }>({ x: -1000, y: -1000 })
   const pointsRef = useRef<Point[][]>([])
+  const animationRef = useRef<number>(0)
   const noiseGenerator = useRef(new PerlinNoise())
+
+
+
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -187,18 +194,16 @@ const Page = ({
           if (distance < radius) {
             const ratio = 1 - distance / radius
             switch (mouseInteraction) {
-              case "diverg":
+              case "diverge":
                 const ratio3 = Math.pow(ratio, 3)
                 point.vx += Math.sign(point.x - mouseX) * force * ratio3 * 0.1
                 point.vy += Math.sign(point.y - mouseY) * force * ratio3
                 break
-
-              case "converg":
+              case "converge":
                 const ratio2 = Math.pow(ratio, 2)
                 point.vx += (mouseX - point.x) * gravity * ratio2
                 point.vy += (mouseY - point.y) * gravity * ratio2
                 break
-
               case "smear":
                 const mouseDeltaX = mouseX - prevX
                 const mouseDeltaY = mouseY - prevY
@@ -221,23 +226,17 @@ const Page = ({
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
       ctx.fillStyle = backgroundColor
       ctx.fillRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
-
       updatePoints()
-
       ctx.strokeStyle = lineColor
       ctx.lineWidth = 1
-
       if (pointsRef.current[0]) {
         for (let rowIndex = 0; rowIndex < pointsRef.current[0].length; rowIndex++) {
           ctx.beginPath()
-
           for (let colIndex = 0; colIndex < pointsRef.current.length; colIndex++) {
             const point = pointsRef.current[colIndex][rowIndex]
             if (!point) continue
-
             const x = point.x + point.dx
             const y = point.y + point.dy
-
             if (colIndex === 0) {
               ctx.moveTo(x, y)
             } else {
@@ -251,30 +250,34 @@ const Page = ({
               }
             }
           }
-
           ctx.stroke()
         }
       }
-
-      requestAnimationFrame(animate)
+      animationRef.current = requestAnimationFrame(animate)
     }
 
     animate()
 
     window.addEventListener('resize', resizeCanvas)
-    canvas.addEventListener('mousemove', setMouseMove)
-    canvas.addEventListener('mouseleave', setMouseLeave)
+    window.addEventListener('mousemove', setMouseMove)
+    window.addEventListener('mouseleave', setMouseLeave)
+
+
 
     return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
       window.removeEventListener('resize', resizeCanvas)
-      canvas.removeEventListener('mousemove', setMouseMove)
-      canvas.removeEventListener('mouseleave', setMouseLeave)
+      window.removeEventListener('mousemove', setMouseMove)
+      window.removeEventListener('mouseleave', setMouseLeave)
     }
-  }, [backgroundColor, lineColor, gap, radius, force, gravity, mouseInteraction, effects])
+  }, [backgroundColor, lineColor, gap, radius, force, gravity, waveSpeed, mouseInteraction, effects]);
+
 
   return (
-    <canvas ref={canvasRef} className="block" />
+    <canvas ref={canvasRef} />
   )
 }
 
-export default Page
+export default FluidLines
