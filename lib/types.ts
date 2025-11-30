@@ -9,6 +9,8 @@ export interface BackgroundConfig {
 
   controls: Control[];
 
+  new?: boolean;
+
   code: {
     usage: string;
     rawUsage: string;

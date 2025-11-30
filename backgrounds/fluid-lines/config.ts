@@ -6,6 +6,7 @@ export default {
   description: 'An animated background featuring fluid, bent lines that undulate with wave-like motion, responding dynamically to mouse movements by contracting or diverging.',
   author: 'NetMods',
   tags: ['animated', 'bent-lines', 'waves', 'fluid', 'motion', 'interactive', 'abstract', 'geometric'],
+  new: true,
   defaultProps: {
     backgroundColor: '#000000',
     lineColor: '#FFFFFF',

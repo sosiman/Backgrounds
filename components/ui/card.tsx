@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { CodeSidebarData, useCodeSidebar } from '../ui/code-sidebar';
 import { EyeIcon } from '@phosphor-icons/react';
+import { Badge } from './badge';
 
 interface BackgroundCardProps {
   config: BackgroundConfig;
@@ -48,16 +49,17 @@ export const BackgroundCard = ({
   };
 
   return (
-    <div className='select-none h-fit bg-base-content/10 p-2 rounded-[24px] ring-1 ring-base-content/20'>
+    <div className='select-none h-fit bg-base-content/10 p-2 rounded-[24px] ring-1 ring-base-content/20 overflow-hidden relative'>
       <div
         className={cn(
           'aspect-square shrink-0 size-72 md:size-[385px] relative overflow-hidden',
           'rounded-[18px]'
         )}
+        style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
         onMouseEnter={() => setHoveredIndex(index)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
-        <div className="size-full bg-base-content/20 group">
+        <div className="size-full bg-base-content/20 group card">
           <div className="size-full bg-black/50 object-cover flex relative">
             <img
               src={`/thumbnails/${config.name.split(' ').join('-').toLowerCase()}.webp`}
@@ -78,7 +80,7 @@ export const BackgroundCard = ({
 
           <div
             className={cn(
-              'bg-base-content/10 backdrop-blur-lg sm:bg-base-content/20',
+              'bg-base-content/10 backdrop-blur-lg sm:bg-base-content/20 ',
               'p-2 border-t border-base-content/20 w-full max-sm:-translate-y-full',
               isHovered && "-translate-y-[5.9rem] "
             )}
@@ -150,6 +152,7 @@ export const BackgroundCard = ({
           }}
         />
       </div>
+      {config?.new && <Badge label='New' />}
     </div>
   );
 };

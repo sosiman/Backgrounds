@@ -76,19 +76,12 @@ const FluidLines = ({
   mouseInteraction = 'smear',
   effects = "wind"
 }: PageProps) => {
-
-
-
-
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef<{ x: number, y: number }>({ x: -1000, y: -1000 })
   const prevMouseRef = useRef<{ x: number, y: number }>({ x: -1000, y: -1000 })
   const pointsRef = useRef<Point[][]>([])
   const animationRef = useRef<number>(0)
   const noiseGenerator = useRef(new PerlinNoise())
-
-
-
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -262,8 +255,6 @@ const FluidLines = ({
     window.addEventListener('mousemove', setMouseMove)
     window.addEventListener('mouseleave', setMouseLeave)
 
-
-
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
@@ -274,9 +265,10 @@ const FluidLines = ({
     }
   }, [backgroundColor, lineColor, gap, radius, force, gravity, waveSpeed, mouseInteraction, effects]);
 
-
   return (
-    <canvas ref={canvasRef} />
+    <canvas
+      ref={canvasRef}
+    />
   )
 }
 
