@@ -2,7 +2,7 @@ import { BackgroundConfig } from '@/lib/types';
 import { jsxCode, tsxCode, tsxCodeHTML, jsxCodeHTML, usageCodeHTML, usageCode } from './code'
 
 export default {
-  name: 'Wavy Bent Lines',
+  name: 'Fluid Lines',
   description: 'An animated background featuring fluid, bent lines that undulate with wave-like motion, responding dynamically to mouse movements by contracting or diverging.',
   author: 'NetMods',
   tags: ['animated', 'bent-lines', 'waves', 'fluid', 'motion', 'interactive', 'abstract', 'geometric'],
