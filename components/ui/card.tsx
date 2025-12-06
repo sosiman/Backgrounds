@@ -13,6 +13,7 @@ interface BackgroundCardProps {
   component: React.ComponentType<any>;
   index: number;
   isHovered: boolean;
+  isNew?: boolean;
   isFavourite: boolean;
   toggleFavourite: (index: string) => void;
   setHoveredIndex: (index: number | null) => void;
@@ -23,6 +24,7 @@ export const BackgroundCard = ({
   component: Component,
   index,
   isFavourite,
+  isNew,
   isHovered,
   toggleFavourite,
   setHoveredIndex,
@@ -152,7 +154,7 @@ export const BackgroundCard = ({
           }}
         />
       </div>
-      {config?.new && <Badge label='New' />}
+      {isNew && <Badge label='New' />}
     </div>
   );
 };
