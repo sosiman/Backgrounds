@@ -119,7 +119,7 @@ export const BackgroundCard = ({
             "hover:bg-base-content/30"
           )}
           data-fav-id={config.id}
-          onClick={() => toggleFavourite(config.id)}
+          onClick={() => toggleFavourite(config.id || "")}
         >
           <StarIcon
             className={cn(
