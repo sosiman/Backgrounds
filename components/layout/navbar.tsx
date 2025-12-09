@@ -8,6 +8,12 @@ import { useCommandPalette } from "./command-palette/context"
 export const Navbar = () => {
   const { toggleOpen } = useCommandPalette()
 
+  const handleTwitterLink = () => {
+    const profiles = ['https://x.com/Dharmeshwr', 'https://x.com/Monkey_d_aryan']
+    const link = profiles[Math.floor(Math.random() * 2)]
+    window.open(link, '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <div className="w-full text-white font-sans p-2 px-6 mt-4 rounded-full border border-white/20 shadow-xl backdrop-blur-3xl max-w-200 mx-auto select-none">
       <div className="flex justify-between text-md md:text-xl items-center">
@@ -44,14 +50,11 @@ export const Navbar = () => {
             </a>
           </span>
 
-          <span className="cursor-pointer p-1 rounded-lg group">
-            <a
-              href={""}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <TwitterLogoIcon size={25} className="group-hover:scale-105 transition-all ease-linear duration-75" />
-            </a>
+          <span
+            className="cursor-pointer p-1 rounded-lg group"
+            onClick={handleTwitterLink}
+          >
+            <TwitterLogoIcon size={25} className="group-hover:scale-105 transition-all ease-linear duration-75" />
           </span>
         </div>
       </div>
