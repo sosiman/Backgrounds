@@ -19,6 +19,8 @@ export default function Code({ htmlCode, code, filename, dynamic, language }: Pr
     if (dynamic) {
       codeToHtml(dynamic, { lang: language as BundledLanguage, theme: "material-theme" })
         .then((result) => setHtml(result));
+    } else {
+      setHtml(htmlCode)
     }
   }, [htmlCode, dynamic])
 

@@ -199,7 +199,7 @@ export const RangeSlider = ({ label, min, max, step, onChange, value, descriptio
           className="group-hover:text-base-content font-mono text-[0.8rem] z-10 flex flex-col items-center justify-center transitiona-all ease-linear"
           ref={valueRef}
         >
-          {roundToDecimalPlaces(currentValue, 2)}
+          {roundToDecimalPlaces(currentValue, 4)}
         </div>
       </div>
     </div>
