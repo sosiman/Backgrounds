@@ -68,7 +68,7 @@ class Particle {
     row = Math.max(0, Math.min(row, rows - 1));
 
     if (rows > 0 && cols > 0 && flowField[row] && flowField[row][col] !== undefined) {
-      const angle = flowField[row][col];
+      const angle = flowField[row][col] + (Math.random() * 0.3 - 0.2);
       this.x += Math.cos(angle) * speed;
       this.y += Math.sin(angle) * speed;
     }
@@ -274,7 +274,7 @@ const FlowField = ({
   particleSpeed = 2,
   particleCount = 1400,
   backgroundColor = '#4169e1',
-  particleColor = '#ffffff' // Default to hex now
+  particleColor = '#ffffff'
 }: FlowFieldProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
@@ -292,7 +292,6 @@ const FlowField = ({
     let w = 0;
     let h = 0;
 
-    // Handle color conversion once at setup
     const isHex = particleColor.startsWith('#');
     const drawColor = isHex ? hexToRgb(particleColor) : particleColor;
 
@@ -321,7 +320,9 @@ const FlowField = ({
       const cols = Math.ceil(w / cellSize);
       const rows = Math.ceil(h / cellSize);
 
-      ctx.clearRect(0, 0, w, h);
+      // CHANGE 1: Use fillRect instead of clearRect
+      ctx.fillStyle = backgroundColor;
+      ctx.fillRect(0, 0, w, h);
 
       flowFieldRef.current = [];
       for (let y = 0; y < rows; y++) {
@@ -338,7 +339,7 @@ const FlowField = ({
             0
           );
 
-          const angle = noiseValue * (Math.PI / 4);
+          const angle = noiseValue;
 
           flowFieldRef.current[y][x] = angle;
         }
@@ -347,7 +348,7 @@ const FlowField = ({
       particlesRef.current.forEach((p) => {
         p.radius = radius;
         p.update(flowFieldRef.current, cellSize, particleSpeed, w, h);
-        p.draw(drawColor); // Use the processed color
+        p.draw(drawColor);
       });
 
       animationRef.current = requestAnimationFrame(step);
@@ -364,7 +365,7 @@ const FlowField = ({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [scale, cellSize, radius, fieldSpeed, particleSpeed, particleCount, particleColor]);
+  }, [scale, cellSize, radius, fieldSpeed, particleSpeed, particleCount, particleColor, backgroundColor]);
 
   return (
     <canvas
@@ -375,7 +376,6 @@ const FlowField = ({
         left: 0,
         width: '100%',
         height: '100%',
-        backgroundColor
       }}
     />
   );
