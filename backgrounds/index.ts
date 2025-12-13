@@ -36,7 +36,7 @@ const registerEntry: BackgroundEntry[] = [
   { config: dotGridConfig, component: WaveGradient },
   { config: plasmaWaveConfig, component: PlasmaWave },
   { config: fluidLinesConfig, component: FluidLines },
-  { config: mistConfig, component: Mist },
+  { config: mistConfig, component: Mist, isNew: true },
   { config: spiralConfig, component: Spirals },
   { config: fractalTreeConfig, component: FractalTree, isNew: true },
   { config: pipesConfig, component: Pipes },
