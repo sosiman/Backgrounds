@@ -13,6 +13,7 @@ import Matrix from './matrix'
 import PlasmaWave from './plasma-wave';
 import FractalTree from './fractal-tree';
 import FluidLines from './fluid-lines';
+import Mist from './mist';
 
 //import config
 import dotGridConfig from './dot-grid/config';
@@ -24,8 +25,10 @@ import snowfallConfig from './snow-fall/config';
 import pipesConfig from './pipes/config';
 import matrixConfig from './matrix/config';
 import plasmaWaveConfig from './plasma-wave/config';
+import mistConfig from './mist/config'
 import fluidLinesConfig from './fluid-lines/config';
 import fractalTreeConfig from './fractal-tree/config';
+
 
 const registerEntry: BackgroundEntry[] = [
   { config: noiseFlowConfig, component: NoiseFlow },
@@ -33,6 +36,7 @@ const registerEntry: BackgroundEntry[] = [
   { config: dotGridConfig, component: WaveGradient },
   { config: plasmaWaveConfig, component: PlasmaWave },
   { config: fluidLinesConfig, component: FluidLines },
+  { config: mistConfig, component: Mist },
   { config: spiralConfig, component: Spirals },
   { config: fractalTreeConfig, component: FractalTree, isNew: true },
   { config: pipesConfig, component: Pipes },

@@ -94,7 +94,6 @@ interface ShaderProgram {
 interface ShaderCanvasProps {
   scale?: number;
   speed?: number;
-  mouseInteraction?: boolean;
   autoPlay?: boolean;
   color1?: string;
   color2?: string;
@@ -113,10 +112,9 @@ const hexToRgb = (hex: string): [number, number, number] => {
     : [0, 0, 0];
 };
 
-const ShaderCanvas = ({
+const Mist = ({
   scale = 3.0,
   speed = 1.0,
-  mouseInteraction = true,
   autoPlay = true,
   color1 = '#1a9eaa',
   color2 = '#aaaaaa',
@@ -212,7 +210,6 @@ const ShaderCanvas = ({
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!mouseInteraction) return;
       const rect = canvas.getBoundingClientRect();
       mouseRef.current.x = (e.clientX - rect.left) / rect.width * 2 - 1;
       mouseRef.current.y = -((e.clientY - rect.top) / rect.height * 2 - 1);
@@ -223,10 +220,8 @@ const ShaderCanvas = ({
       mouseRef.current.y = 0;
     };
 
-    if (mouseInteraction) {
-      canvas.addEventListener('mousemove', handleMouseMove);
-      canvas.addEventListener('mouseleave', handleMouseLeave);
-    }
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
 
     const resizeCanvas = () => {
       canvas.width = canvas.offsetWidth;
@@ -289,10 +284,8 @@ const ShaderCanvas = ({
       if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
       }
-      if (mouseInteraction) {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseleave', handleMouseLeave);
-      }
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('resize', resizeCanvas);
       if (gl && program) {
         gl.deleteProgram(program);
@@ -301,21 +294,20 @@ const ShaderCanvas = ({
         gl.deleteBuffer(positionBuffer);
       }
     };
-  }, [scale, speed, mouseInteraction, autoPlay, color1, color2, color3, color4]);
+  }, [scale, speed, autoPlay, color1, color2, color3, color4]);
 
   return (
     <canvas
       ref={canvasRef}
       style={{
-        position: 'fixed',
+        position: 'absolute',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        display: 'block'
       }}
     />
   );
 };
 
-export default ShaderCanvas;
+export default Mist;
