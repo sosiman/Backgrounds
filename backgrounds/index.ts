@@ -17,6 +17,7 @@ import Pipes from './pipes'
 import Matrix from './matrix'
 import PlasmaWave from './plasma-wave';
 import FluidLines from './fluid-lines';
+import Mist from './mist';
 
 //import config
 import dotGridConfig from './dot-grid/config';
@@ -29,6 +30,7 @@ import pipesConfig from './pipes/config'
 import matrixConfig from './matrix/config'
 import plasmaWaveConfig from './plasma-wave/config';
 import fluidLinesConfig from './fluid-lines/config'
+import mistConfig from './mist/config'
 
 const registerEntry: BackgroundEntry[] = [
   { config: noiseFlowConfig, component: NoiseFlow },
@@ -36,6 +38,7 @@ const registerEntry: BackgroundEntry[] = [
   { config: dotGridConfig, component: WaveGradient },
   { config: plasmaWaveConfig, component: PlasmaWave },
   { config: fluidLinesConfig, component: FluidLines },
+  { config: mistConfig, component: Mist },
   { config: spiralConfig, component: Spirals },
   { config: pipesConfig, component: Pipes },
   { config: matrixConfig, component: Matrix },
