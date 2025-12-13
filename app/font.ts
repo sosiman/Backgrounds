@@ -26,6 +26,6 @@ export const fontSerif = FontSerif({
 export const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: "500",
+  weight: ['500', '400', '700', '600'],
 });
 

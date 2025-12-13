@@ -32,7 +32,7 @@ export default function Page() {
   if (!currentId || !entry) {
     return (
       <div className=" flex justify-center items-center text-base-content/80 font-sans font-semibold text-xl min-h-screen">
-        No background available with this id.
+        No background available with this id
       </div>
     )
   }

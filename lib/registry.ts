@@ -1,9 +1,4 @@
-import { BackgroundConfig } from './types';
-
-export interface BackgroundEntry {
-  config: BackgroundConfig;
-  component: React.ComponentType<any>;
-}
+import { BackgroundEntry } from './types';
 
 class BackgroundRegistry {
   private backgrounds: Map<string, BackgroundEntry> = new Map();

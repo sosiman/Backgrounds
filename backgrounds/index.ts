@@ -1,10 +1,5 @@
 import { registry } from '@/lib/registry';
-import { BackgroundConfig } from '@/lib/types';
-
-interface BackgroundEntry {
-  config: Omit<BackgroundConfig, 'id'>;
-  component: React.ComponentType<any>;
-}
+import { BackgroundConfig, BackgroundEntry } from '@/lib/types';
 
 //import components
 import WaveGradient from './dot-grid'
@@ -16,6 +11,7 @@ import Snowfall from './snow-fall'
 import Pipes from './pipes'
 import Matrix from './matrix'
 import PlasmaWave from './plasma-wave';
+import FractalTree from './fractal-tree';
 import FluidLines from './fluid-lines';
 import Mist from './mist';
 
@@ -24,13 +20,15 @@ import dotGridConfig from './dot-grid/config';
 import particlesConfig from './particles/config'
 import hexagonsConfig from './hexagons/config'
 import spiralConfig from './spirals/config'
-import noiseFlowConfig from './noise-field/config'
-import snowfallConfig from './snow-fall/config'
-import pipesConfig from './pipes/config'
-import matrixConfig from './matrix/config'
+import noiseFlowConfig from './noise-field/config';
+import snowfallConfig from './snow-fall/config';
+import pipesConfig from './pipes/config';
+import matrixConfig from './matrix/config';
 import plasmaWaveConfig from './plasma-wave/config';
-import fluidLinesConfig from './fluid-lines/config'
 import mistConfig from './mist/config'
+import fluidLinesConfig from './fluid-lines/config';
+import fractalTreeConfig from './fractal-tree/config';
+
 
 const registerEntry: BackgroundEntry[] = [
   { config: noiseFlowConfig, component: NoiseFlow },
@@ -40,6 +38,7 @@ const registerEntry: BackgroundEntry[] = [
   { config: fluidLinesConfig, component: FluidLines },
   { config: mistConfig, component: Mist },
   { config: spiralConfig, component: Spirals },
+  { config: fractalTreeConfig, component: FractalTree, isNew: true },
   { config: pipesConfig, component: Pipes },
   { config: matrixConfig, component: Matrix },
   { config: hexagonsConfig, component: Hexagons },
@@ -54,5 +53,6 @@ registerEntry.forEach((entry: BackgroundEntry, index) => {
   registry.register({
     config: configWithId,
     component: entry.component,
+    isNew: entry.isNew,
   });
 })

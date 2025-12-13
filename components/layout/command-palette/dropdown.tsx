@@ -44,7 +44,7 @@ const CommandPaletteDropdown = () => {
       })
       .map(({ config }) => ({
         type: 'background' as const,
-        id: config.id,
+        id: config.id!,
         name: config.name,
         description: config.description,
         tags: config.tags || []

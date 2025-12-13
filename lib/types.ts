@@ -1,5 +1,5 @@
 export interface BackgroundConfig {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   author?: string;
@@ -30,3 +30,11 @@ export interface Control {
   defaultValue: any;
   description?: string;
 }
+
+
+export interface BackgroundEntry {
+  config: BackgroundConfig;
+  component: React.ComponentType<any>;
+  isNew?: boolean;
+}
+

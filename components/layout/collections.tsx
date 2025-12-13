@@ -25,7 +25,7 @@ export const Collections = () => {
 
   const filtered = (() => {
     let result = activeTab === 'fav'
-      ? backgrounds.filter(({ config }) => favourite.includes(config.id))
+      ? backgrounds.filter(({ config }) => favourite.includes(config?.id || ""))
       : backgrounds;
 
     if (searchQuery.trim()) {
@@ -69,14 +69,15 @@ export const Collections = () => {
         )}
       >
         {/* bg-base-content/10 backdrop-blur-3xl */}
-        {filtered.map(({ config, component: Component }, index) => (
+        {filtered.map(({ config, isNew, component: Component }, index) => (
           <BackgroundCard
             key={config.id}
             index={index}
+            isNew={isNew}
             config={config}
             component={Component}
             isHovered={hoveredIndex === index}
-            isFavourite={favourite.includes(config.id)}
+            isFavourite={favourite.includes(config?.id || "")}
             toggleFavourite={toggleFavourite}
             setHoveredIndex={setHoveredIndex}
           />
