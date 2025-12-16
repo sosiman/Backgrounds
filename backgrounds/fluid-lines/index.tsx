@@ -54,6 +54,7 @@ interface PageProps {
   waveSpeed?: number
   mouseInteraction?: "diverge" | "converge" | "smear" | "none"
   effects?: "wind" | "waves" | "oregeny" | "none"
+  rotation?: number
 }
 
 interface Point {
@@ -74,7 +75,8 @@ const FluidLines = ({
   gravity = 0.3,
   waveSpeed = 8000,
   mouseInteraction = 'smear',
-  effects = "wind"
+  effects = "wind",
+  rotation = 45
 }: PageProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef<{ x: number, y: number }>({ x: -1000, y: -1000 })
@@ -82,6 +84,8 @@ const FluidLines = ({
   const pointsRef = useRef<Point[][]>([])
   const animationRef = useRef<number>(0)
   const noiseGenerator = useRef(new PerlinNoise())
+
+  const gridDimensionsRef = useRef<{ width: number, height: number }>({ width: 0, height: 0 })
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -102,8 +106,15 @@ const FluidLines = ({
 
     const initPoints = () => {
       const { innerWidth, innerHeight } = window
-      const cols = Math.ceil(innerWidth / gap)
-      const rows = Math.ceil(innerHeight / gap)
+
+      const diagonal = Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight)
+
+      const gridSize = diagonal + 100
+      gridDimensionsRef.current = { width: gridSize, height: gridSize }
+
+      const cols = Math.ceil(gridSize / gap)
+      const rows = Math.ceil(gridSize / gap)
+
       pointsRef.current = []
       for (let i = 0; i <= cols; i++) {
         const column: Point[] = []
@@ -125,11 +136,26 @@ const FluidLines = ({
 
     const setMouseMove = (event: MouseEvent) => {
       const rect = canvas.getBoundingClientRect()
+      const { width: gridW, height: gridH } = gridDimensionsRef.current
+      const { width: canvasW, height: canvasH } = rect
+
+      const mouseX = event.clientX - rect.left
+      const mouseY = event.clientY - rect.top
+
+      const centerX = canvasW / 2
+      const centerY = canvasH / 2
+      const relX = mouseX - centerX
+      const relY = mouseY - centerY
+
+      const angleRad = (rotation * Math.PI) / 180
+      const rotatedX = relX * Math.cos(-angleRad) - relY * Math.sin(-angleRad)
+      const rotatedY = relX * Math.sin(-angleRad) + relY * Math.cos(-angleRad)
+
+      const finalX = rotatedX + gridW / 2
+      const finalY = rotatedY + gridH / 2
+
       prevMouseRef.current = { ...mouseRef.current }
-      mouseRef.current = {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
-      }
+      mouseRef.current = { x: finalX, y: finalY }
     }
 
     const setMouseLeave = () => {
@@ -148,10 +174,12 @@ const FluidLines = ({
       const mouseY = mouseRef.current.y
       const prevX = prevMouseRef.current.x
       const prevY = prevMouseRef.current.y
+
       pointsRef.current.forEach((column) => {
         column.forEach((point) => {
           let now = performance.now() / waveSpeed
           let noiseValue;
+
           switch (effects) {
             case "wind":
               noiseValue = noiseGenerator.current.noise(
@@ -181,9 +209,11 @@ const FluidLines = ({
               point.vy = noiseValue * 5 * amplitude
               break;
           }
+
           const dx = point.x - mouseX
           const dy = point.y - mouseY
           const distance = Math.sqrt(dx ** 2 + dy ** 2)
+
           if (distance < radius) {
             const ratio = 1 - distance / radius
             switch (mouseInteraction) {
@@ -205,6 +235,7 @@ const FluidLines = ({
                 break
             }
           }
+
           point.vx *= 0.7
           point.vy *= 0.7
           point.vx += point.dx * -0.1
@@ -216,12 +247,24 @@ const FluidLines = ({
     }
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
+      ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform to clear safely
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.fillStyle = backgroundColor
-      ctx.fillRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
       updatePoints()
+
+      const { innerWidth, innerHeight } = window
+      const { width: gridW, height: gridH } = gridDimensionsRef.current
+
+      ctx.save()
+      ctx.translate(innerWidth / 2, innerHeight / 2)
+      ctx.rotate((rotation * Math.PI) / 180)
+      ctx.translate(-gridW / 2, -gridH / 2)
+
       ctx.strokeStyle = lineColor
       ctx.lineWidth = 1
+
       if (pointsRef.current[0]) {
         for (let rowIndex = 0; rowIndex < pointsRef.current[0].length; rowIndex++) {
           ctx.beginPath()
@@ -246,6 +289,8 @@ const FluidLines = ({
           ctx.stroke()
         }
       }
+
+      ctx.restore()
       animationRef.current = requestAnimationFrame(animate)
     }
 
@@ -263,11 +308,12 @@ const FluidLines = ({
       window.removeEventListener('mousemove', setMouseMove)
       window.removeEventListener('mouseleave', setMouseLeave)
     }
-  }, [backgroundColor, lineColor, gap, radius, force, gravity, waveSpeed, mouseInteraction, effects]);
+  }, [backgroundColor, lineColor, gap, radius, force, gravity, waveSpeed, mouseInteraction, effects, rotation]); // Added rotation to dependency array
 
   return (
     <canvas
       ref={canvasRef}
+      style={{ display: 'block' }}
     />
   )
 }

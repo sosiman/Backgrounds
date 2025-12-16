@@ -15,7 +15,8 @@ export default {
     gravity: 0.3,
     waveSpeed: 8000,
     mouseInteraction: 'smear',
-    effects: "wind"
+    effects: "wind",
+    rotation: 45
   },
   code: {
     usage: usageCodeHTML,
@@ -39,6 +40,16 @@ export default {
       type: 'color',
       defaultValue: '#FFFFFF',
       description: 'The color of the bent lines in the animation.',
+    },
+    {
+      key: 'rotation',
+      label: 'Rotation',
+      type: 'slider',
+      min: 0,
+      max: 180,
+      step: 1,
+      defaultValue: 0,
+      description: 'The rotation angle of the lines (0-180 degrees).',
     },
     {
       key: 'gap',
@@ -102,9 +113,9 @@ export default {
       key: 'effects',
       label: 'General Effect',
       type: 'select',
-      options: ['none', 'wind', 'waves'],
+      options: ['none', 'wind', 'waves', 'oregeny'], // Added oregeny based on previous component code
       defaultValue: 'wind',
-      description: 'Global animation effect: none (static), wind (gentle horizontal drift), or waves (undulating vertical motion).',
+      description: 'Global animation effect: none, wind, waves, or oregeny.',
     },
   ],
 } as Omit<BackgroundConfig, 'id'>;
