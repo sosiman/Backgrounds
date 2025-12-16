@@ -32,17 +32,17 @@ import fractalTreeConfig from './fractal-tree/config';
 
 const registerEntry: BackgroundEntry[] = [
   { config: noiseFlowConfig, component: NoiseFlow },
-  { config: snowfallConfig, component: Snowfall },
-  { config: dotGridConfig, component: WaveGradient },
-  { config: plasmaWaveConfig, component: PlasmaWave },
   { config: fluidLinesConfig, component: FluidLines },
+  { config: dotGridConfig, component: WaveGradient },
+  { config: particlesConfig, component: Particles },
   { config: mistConfig, component: Mist, isNew: true },
   { config: spiralConfig, component: Spirals },
   { config: fractalTreeConfig, component: FractalTree, isNew: true },
+  { config: snowfallConfig, component: Snowfall },
   { config: pipesConfig, component: Pipes },
   { config: matrixConfig, component: Matrix },
   { config: hexagonsConfig, component: Hexagons },
-  { config: particlesConfig, component: Particles },
+  { config: plasmaWaveConfig, component: PlasmaWave },
 ]
 
 registerEntry.forEach((entry: BackgroundEntry, index) => {

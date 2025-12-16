@@ -2,6 +2,17 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { glob } from 'glob';
 import { BundledTheme, codeToHtml } from 'shiki';
+import { transform } from 'sucrase';
+
+export const convertTsToJs = (tsCode: string): string => {
+  const result = transform(tsCode, {
+    transforms: ['typescript', 'jsx'],
+    disableESTransforms: true,
+    jsxRuntime: 'preserve'
+  });
+
+  return result.code.replace(/(\n\s*){3,}/g, '\n\n');
+}
 
 export function generateUsageCode(
   componentName: string,
@@ -30,32 +41,6 @@ ${propsString}
     </div>
   );
 }`;
-}
-
-export function convertTsToJs(tsCode: string): string {
-  return tsCode
-    // Remove interface definitions
-    .replace(/interface\s+\w+\s*{[^}]*}/g, '')
-    // Remove type annotations from props
-    .replace(/:\s*React\.FC<\w+>/g, '')
-    .replace(/:\s*React\.ComponentType<\w+>/g, '')
-    // Remove type annotations from variables and parameters
-    .replace(/:\s*(\w+(\[\])?|\w+<[^>]+>)/g, '')
-    // Remove HTMLElement types
-    .replace(/:\s*HTML\w+Element(\s*\|\s*null)?/g, '')
-    // Remove type imports
-    .replace(/import\s+(?:type\s+)?{[^}]*}\s+from\s+['"][^'"]+['"];?\s*/g, (match) => {
-      // Keep React imports
-      if (match.includes('from \'react\'') || match.includes('from "react"')) {
-        return match.replace(/type\s+/g, '').replace(/:\s*\w+/g, '');
-      }
-      return '';
-    })
-    // Remove generic type parameters
-    .replace(/<([^>]+)>/g, '')
-    // Clean up multiple empty lines
-    .replace(/\n\s*\n\s*\n/g, '\n\n')
-    .trim();
 }
 
 function kebabToPascal(str: string): string {
