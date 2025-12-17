@@ -111,7 +111,6 @@ export default function RootLayout({
           }}
         />
         <div
-          aria-hidden='true'
           className="relative z-10 min-h-screen overflow-hidden"
           style={{
             background: "rgba(255, 255, 255, 0.05)",

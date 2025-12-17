@@ -5,6 +5,7 @@ import { ControlPanel } from '@/components/ui/control-panel';
 import { CodeSidebarData, useCodeSidebar } from "@/components/ui/code-sidebar"
 import { useSettingsSidebar } from "@/components/ui/settings-sidebar"
 import { CaretUpIcon, GearIcon, ArrowLeftIcon, ArrowRightIcon, CodeIcon } from "@phosphor-icons/react"
+import Link from "next/link"
 import { useSearchParams, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react";
 import { useBackgroundProps } from '@/lib/background-context';
@@ -85,7 +86,21 @@ export default function Page() {
   return (
     <div>
       <div className="flex justify-between items-center p-1 text-base-content/70 max-sm:justify-center">
-        <SettingsButton action={handleSettingSidebar} className='max-sm:hidden' />
+        <div className="flex items-center gap-1">
+          <Link
+            href="/"
+            className={cn(
+              "font-sans text-lg cursor-pointer hover:bg-base-content/20 p-2 rounded-sm transition-colors",
+              "inline-flex items-center gap-2"
+            )}
+            aria-label="Back to home"
+          >
+            <ArrowLeftIcon size={20} weight="bold" />
+            <span className="hidden md:block">Back</span>
+          </Link>
+
+          <SettingsButton action={handleSettingSidebar} className='max-sm:hidden' />
+        </div>
 
         <div className="flex justify-center gap-3 items-center max-sm:w-full">
           <LeftButton action={handleLeft} isDisabled={currentId === 1} className='max-sm:hidden p-2' />
@@ -99,6 +114,14 @@ export default function Page() {
       <div className="inset-0 fixed top-0 left-0 -z-10">
         <Component {...props} />
       </div>
+
+      <Link
+        href="/"
+        aria-label="Back to home"
+        className="fixed top-3 left-3 z-40 sm:hidden bg-white/10 border border-white/30 text-base-content/70 p-2 rounded-xl backdrop-blur-xl"
+      >
+        <ArrowLeftIcon size={20} weight="bold" />
+      </Link>
 
       <LeftButton
         action={handleLeft}

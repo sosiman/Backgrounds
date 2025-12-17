@@ -118,7 +118,6 @@ export const BackgroundCard = ({
             "absolute top-0 right-0 m-2 p-2 rounded-xl bg-base-content/20 cursor-pointer",
             "hover:bg-base-content/30"
           )}
-          data-fav-id={config.id}
           onClick={() => toggleFavourite(config.id || "")}
         >
           <StarIcon
@@ -129,30 +128,6 @@ export const BackgroundCard = ({
             weight="fill"
           />
         </button>
-
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            (function() {
-              if (typeof window === 'undefined' || !window.localStorage) return;
-              try {
-                const favData = window.localStorage.getItem('favourite');
-                const fav = favData ? JSON.parse(favData) : [];
-                const isArray = Array.isArray(fav);
-                const favButton = document.querySelector('[data-fav-id="${config.id}"]');
-                if (favButton) {
-                  const starIcon = favButton.querySelector('svg');
-                  if (starIcon && isArray && fav.includes('${config.id}')) {
-                    starIcon.classList.add('text-yellow-500');
-                  }
-                }
-              } catch (e) {
-                console.warn('Failed to load favourite state:', e);
-              }
-            })();
-          `,
-          }}
-        />
       </div>
       {isNew && <Badge label='New' />}
     </div>

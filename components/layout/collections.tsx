@@ -108,7 +108,6 @@ export const Collections = () => {
       </div>
 
       <p className="mt-10 text-center text-base-content/40 font-bold font-sans capitalize">New background every week</p>
-      <PreFetechingScript />
     </div>
   );
 };
@@ -161,36 +160,11 @@ const TabSection = ({
               )}
             >
               {label}{' '}
-              <span className={`ml-1 text-sm opacity-70 count-${tab}`} suppressHydrationWarning >({count})</span>
+              <span className={`ml-1 text-sm opacity-70 count-${tab}`}>({count})</span>
             </button>
           );
         })}
       </div>
     </div>
-  )
-}
-
-const PreFetechingScript = () => {
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
-            (function() {
-              if (typeof window === 'undefined' || !window.localStorage) return;
-              try {
-                const favData = window.localStorage.getItem('favourite');
-                const fav = favData ? JSON.parse(favData) : [];
-                const count = Array.isArray(fav) ? fav.length : 0;
-                const el = document.querySelector('.count-fav');
-                if (el) {
-                  el.textContent = '(' + count + ')';
-                }
-              } catch (e) {
-                console.warn('Failed to load favourite count:', e);
-              }
-            })();
-            `,
-      }}
-    />
   )
 }

@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { basename, dirname, join } from 'path';
 import { glob } from 'glob';
 import { BundledTheme, codeToHtml } from 'shiki';
 import { transform } from 'sucrase';
@@ -71,8 +71,8 @@ async function processFile(file: string) {
     return;
   }
 
-  const dir = file.replace('/index.tsx', '');
-  const folderName = dir.split('/').pop() || '';
+  const dir = dirname(file);
+  const folderName = basename(dir);
   const componentName = kebabToPascal(folderName);
   console.log(`✓ Component Name: ${componentName}`);
 

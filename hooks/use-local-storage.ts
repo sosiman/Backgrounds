@@ -1,26 +1,30 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 
 function useLocalStorage<T>(key: string, initialValue: T): [T, Dispatch<SetStateAction<T>>] {
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    try {
-      if (typeof window === 'undefined') return initialValue;
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(`Error loading ${key} from localStorage:`, error);
-      return initialValue;
-    }
-  });
+  const [storedValue, setStoredValue] = useState<T>(initialValue);
+  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
     try {
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(storedValue));
+      const item = window.localStorage.getItem(key);
+      if (item != null) {
+        setStoredValue(JSON.parse(item));
       }
+    } catch (error) {
+      console.error(`Error loading ${key} from localStorage:`, error);
+    } finally {
+      setHasHydrated(true);
+    }
+  }, [key]);
+
+  useEffect(() => {
+    if (!hasHydrated) return;
+    try {
+      window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
       console.error(`Error saving ${key} to localStorage:`, error);
     }
-  }, [key, storedValue]);
+  }, [key, storedValue, hasHydrated]);
 
   return [storedValue, setStoredValue];
 }

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate-codes": "NODE_NO_WARNINGS=1 pnpx tsx backgrounds/generate-code.ts",
+    "generate-codes": "cross-env NODE_NO_WARNINGS=1 pnpx tsx backgrounds/generate-code.ts",
     "dev": "pnpm run generate-codes && next dev --turbo",
     "build": "pnpm run generate-codes && next build",
     "start": "next start",
@@ -28,6 +28,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "clsx": "^2.1.1",
+    "cross-env": "^7.0.3",
     "glob": "^11.1.0",
     "postcss": "^8.5.6",
     "shiki": "^3.19.0",
